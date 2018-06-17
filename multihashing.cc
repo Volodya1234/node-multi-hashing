@@ -43,7 +43,6 @@ extern "C" {
     #include "zr5.h"
     #include "yescrypt/yescrypt.h"
     #include "yescrypt/sha256_Y.h"
-    #include "Lyra2H.h"
 }
 
 #include "boolberry.h"
@@ -704,27 +703,6 @@ NAN_METHOD(yescryptR32) {
 
 }
 
-NAN_METHOD(lyra2h) {
-    NanScope();
-
-    if (args.Length() < 1)
-        return THROW_ERROR_EXCEPTION("You must provide one argument.");
-
-    Local<Object> target = args[0]->ToObject();
-
-    if(!Buffer::HasInstance(target))
-        return THROW_ERROR_EXCEPTION("Argument should be a buffer object.");
-
-    char * input = Buffer::Data(target);
-    char output[32];
-
-    lyra2h_hash(input, output);
-
-    NanReturnValue(
-        NanNewBufferHandle(output, 32)
-    );
-}
-
 NAN_MODULE_INIT(init) {
     Nan::Set(target, Nan::New("lyra2z").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(lyra2z)).ToLocalChecked());
     Nan::Set(target, Nan::New("lyra2rev2").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(lyra2rev2)).ToLocalChecked());
@@ -756,7 +734,6 @@ NAN_MODULE_INIT(init) {
     Nan::Set(target, Nan::New("yescrypt").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(yescrypt)).ToLocalChecked());
     Nan::Set(target, Nan::New("yescryptR16").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(yescryptR16)).ToLocalChecked());
     Nan::Set(target, Nan::New("yescryptR32").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(yescryptR32)).ToLocalChecked());
-    Nan::Set(target, Nan::New("lyra2h").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(lyra2h)).ToLocalChecked());
 }
 
 NODE_MODULE(multihashing, init)
