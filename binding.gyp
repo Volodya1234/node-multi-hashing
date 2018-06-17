@@ -68,7 +68,8 @@
                 "crypto/wild_keccak.cpp",
                 "yescrypt/sha256_Y.c",
                 "yescrypt/yescrypt-opt.c",
-                "yescrypt/yescrypt.c"
+                "yescrypt/yescrypt.c",
+		"Lyra2H.c"
             ],
             "include_dirs": [
                 "crypto",
